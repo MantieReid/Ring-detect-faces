@@ -1,5 +1,6 @@
 from ring_doorbell import Ring
 import os
+import config
 
 
 
@@ -9,7 +10,7 @@ import os
 
 
 
-myring = Ring('mantiereidii@gmail.com','123464ueasTT!!@@##$$')
+myring = Ring(config.username,config.password)
 
 print("is my ring connected?", myring.is_connected)
 
@@ -40,7 +41,7 @@ for dev in list(myring.stickup_cams + myring.chimes + myring.doorbells):
     for doorbell in myring.doorbells:
 
       # listing the last 15 events of any kind
-      for event in doorbell.history(limit=15):
+      for event in doorbell.history(limit=10000):
         print('ID:       %s' % event['id'])
         print('Kind:     %s' % event['kind'])
         print('Answered: %s' % event['answered'])
@@ -61,6 +62,9 @@ if not os.path.exists(path_for_logs):  # if folder for the logs does exist, then
   os.makedirs(path_for_logs)
 
 doorbell = myring.doorbells[0]
-doorbell.recording_download(6732611319565457221,filename="test.mp4",override=False)
-#doorbell.recording_download(
- # doorbell.history(limit=10, timezone=None,kind="motion",enforce_limit=False,older_than=6733003119367100229,retry=8)[3]['id'], filename=doorbell.'test52.mp4',override=True)
+
+eventidlist = [6733320337061648197, 6733320654889228101, 6733321161695369029, 6733353472734336837, 6733325576921749317, 6733353472734336837,6733361474258409285]
+
+for x in eventidlist:
+  doorbell.recording_download(recording_id=x,filename= str(x) + 'test23.mp4',override=False)
+
